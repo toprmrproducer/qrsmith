@@ -1,0 +1,43 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+	title="About QRSmith"
+	description="QRSmith is a small, focused tool for generating styled QR codes with an embedded logo, entirely in your browser."
+	canonicalPath="/about"
+>
+	<section class="mx-auto max-w-2xl">
+		<h1 class="text-4xl font-700 tracking-tight text-[#2B2013]">About QRSmith</h1>
+
+		<div class="mt-8 flex flex-col gap-6 text-base leading-relaxed text-[#5C4F3D]">
+			<p>
+				QRSmith does one thing: it turns a URL or a piece of text into a
+				styled, scannable QR code, with your logo or initials embedded in
+				the center if you want them. That's it. No account, no dashboard,
+				no upsell funnel.
+			</p>
+			<p>
+				We built it as a single-purpose tool on purpose. Most QR
+				generators are buried inside a bloated "all-in-one" utility site
+				with dozens of unrelated tools competing for space. QRSmith is
+				just the QR generator &mdash; fast to load, easy to find, and
+				easy to trust.
+			</p>
+			<p>
+				Everything happens client-side, in your browser, using the
+				open-source <strong class="font-semibold text-[#2B2013]">qr-code-styling</strong>
+				library. The text you type, the image you upload, and the QR
+				code it produces never touch a server. Nothing is stored,
+				logged, or sent anywhere.
+			</p>
+			<p>
+				QR codes have built-in error correction, which is what makes it
+				safe to place a logo over the middle of the code &mdash; as long
+				as the logo doesn't cover too much of the pattern, the code
+				still scans reliably. QRSmith uses high error correction
+				automatically whenever a logo is present.
+			</p>
+		</div>
+	</section>
+</Layout>
