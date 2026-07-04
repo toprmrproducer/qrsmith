@@ -9,9 +9,9 @@ interface Props {
 
 const { title, description, canonicalPath = '/' } = Astro.props;
 const siteUrl = 'https://toprmrproducer.github.io';
-const base = import.meta.env.BASE_URL;
-const normalizedBase = base.endsWith('/') ? base.slice(0, -1) : base;
-const canonical = new URL(`${normalizedBase}${canonicalPath}`, siteUrl).toString();
+const rawBase = import.meta.env.BASE_URL;
+const base = rawBase.endsWith('/') ? rawBase : `${rawBase}/`;
+const canonical = new URL(`${base}${canonicalPath.replace(/^\//, '')}`, siteUrl).toString();
 ---
 
 <!doctype html>
