@@ -8,6 +8,8 @@ node_modules
 node_modules/
 node_modules.nosync/
 node_modules.nosync
+# iCloud-created duplicate symlink artifact
+node_modules 2
 
 # logs
 npm-debug.log*

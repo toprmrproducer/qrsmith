@@ -4,63 +4,258 @@ import Layout from '../layouts/Layout.astro';
 
 <Layout
 	title="QRSmith — Styled QR Code Generator With Logo"
-	description="Turn any URL or text into a styled QR code with custom colors, dot styles, and an embedded logo or initials — no signup, 100% client-side, free."
+	description="Turn a URL, WiFi network, contact card, or email into a styled QR code with custom colors, dot styles, and an embedded logo or initials — no signup, 100% client-side, free."
 	canonicalPath="/"
 >
 	<section class="text-center">
-		<h1 class="text-4xl font-700 tracking-tight text-[#2B2013] sm:text-5xl">
-			Turn any link into a <span class="text-[#C9982E]">QR code</span> you'd
+		<h1 class="text-4xl font-bold tracking-tight text-[#221b10] sm:text-5xl">
+			Turn any link into a <span class="text-[#c9982e]">QR code</span> you'd
 			actually put on a card.
 		</h1>
-		<p class="mx-auto mt-5 max-w-2xl text-lg text-[#5C4F3D]">
+		<p class="mx-auto mt-6 max-w-2xl text-lg text-[#4a4234]">
 			Style the dots, pick your colors, drop your logo in the center — and
-			download a crisp PNG or SVG. Live preview, no signup, nothing ever
-			leaves your browser.
+			download a crisp PNG or SVG. Now with ready-made presets for WiFi,
+			contact cards, and email. Live preview, no signup, nothing ever leaves
+			your browser.
 		</p>
 	</section>
 
-	<section class="mx-auto mt-8 max-w-2xl text-center text-sm leading-relaxed text-[#5C4F3D]/80">
+	<section class="mx-auto mt-8 max-w-2xl text-center text-[15px] leading-relaxed text-[#8a7e68]">
 		<p>
 			The preview updates as you type. Everything &mdash; the QR encoding,
 			the styling, and the logo embedding &mdash; happens directly in your
-			browser with the <strong class="font-semibold text-[#2B2013]">qr-code-styling</strong>
+			browser with the <strong class="font-semibold text-[#221b10]">qr-code-styling</strong>
 			library. QR codes use built-in error correction, so a logo covering
 			the center still scans fine as long as it doesn't get too large.
 		</p>
 	</section>
 
-	<section id="generator" class="mx-auto mt-14 grid max-w-5xl grid-cols-1 gap-8 scroll-mt-24 lg:grid-cols-2">
+	<section id="generator" class="mt-14 grid grid-cols-1 gap-8 scroll-mt-24 lg:grid-cols-2">
 		<!-- Controls -->
 		<div class="flex flex-col gap-6">
-			<div class="rounded-xl border border-[#E8DFC8] bg-white p-6 shadow-sm">
-				<label
-					for="qr-text"
-					class="block text-sm font-medium text-[#2B2013]"
-				>
-					URL or text
-				</label>
-				<textarea
-					id="qr-text"
-					rows="3"
-					placeholder="https://example.com"
-					class="mt-2 w-full resize-y rounded-xl border border-[#E8DFC8] bg-white p-3 text-sm text-[#2B2013] placeholder:text-[#5C4F3D]/40 focus:border-[#C9982E] focus:outline-none focus:ring-1 focus:ring-[#C9982E]"
-				></textarea>
+			<!-- Content preset tabs -->
+			<div class="rounded-2xl border border-[#eae4d6] bg-[#faf8f3] p-6 shadow-sm">
+				<h2 class="font-[Sora] text-[15px] font-bold text-[#221b10]">Content type</h2>
+				<div class="mt-4 flex flex-wrap gap-2" role="tablist" aria-label="QR content type">
+					<button
+						id="preset-tab-url"
+						type="button"
+						class="preset-tab rounded-xl border border-[#c9982e] bg-[#c9982e] px-3.5 py-1.5 text-[13px] font-semibold text-white"
+						data-preset="url"
+						role="tab"
+						aria-selected="true"
+					>
+						URL
+					</button>
+					<button
+						id="preset-tab-wifi"
+						type="button"
+						class="preset-tab rounded-xl border border-[#eae4d6] bg-white px-3.5 py-1.5 text-[13px] font-semibold text-[#4a4234] transition hover:border-[#c9982e] hover:text-[#b8860b]"
+						data-preset="wifi"
+						role="tab"
+						aria-selected="false"
+					>
+						WiFi
+					</button>
+					<button
+						id="preset-tab-vcard"
+						type="button"
+						class="preset-tab rounded-xl border border-[#eae4d6] bg-white px-3.5 py-1.5 text-[13px] font-semibold text-[#4a4234] transition hover:border-[#c9982e] hover:text-[#b8860b]"
+						data-preset="vcard"
+						role="tab"
+						aria-selected="false"
+					>
+						vCard
+					</button>
+					<button
+						id="preset-tab-email"
+						type="button"
+						class="preset-tab rounded-xl border border-[#eae4d6] bg-white px-3.5 py-1.5 text-[13px] font-semibold text-[#4a4234] transition hover:border-[#c9982e] hover:text-[#b8860b]"
+						data-preset="email"
+						role="tab"
+						aria-selected="false"
+					>
+						Email
+					</button>
+				</div>
+
+				<!-- URL / raw text panel -->
+				<div id="preset-panel-url" class="preset-panel mt-5">
+					<label for="qr-text" class="block text-[13px] font-medium tracking-wide text-[#8a7e68] uppercase">
+						URL or text
+					</label>
+					<textarea
+						id="qr-text"
+						rows="3"
+						placeholder="https://example.com"
+						class="mt-2 w-full resize-y rounded-xl border border-[#eae4d6] bg-white p-3 text-[15px] text-[#221b10] placeholder:text-[#8a7e68]/60 focus:border-[#c9982e] focus:outline-none focus:ring-1 focus:ring-[#c9982e]"
+					></textarea>
+				</div>
+
+				<!-- WiFi panel -->
+				<div id="preset-panel-wifi" class="preset-panel mt-5 hidden">
+					<div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+						<div class="sm:col-span-2">
+							<label for="wifi-ssid" class="block text-[13px] font-medium tracking-wide text-[#8a7e68] uppercase">
+								Network name (SSID)
+							</label>
+							<input
+								id="wifi-ssid"
+								type="text"
+								placeholder="MyHomeWiFi"
+								class="mt-2 w-full rounded-xl border border-[#eae4d6] bg-white px-3 py-2 text-[15px] text-[#221b10] placeholder:text-[#8a7e68]/60 focus:border-[#c9982e] focus:outline-none focus:ring-1 focus:ring-[#c9982e]"
+							/>
+						</div>
+						<div>
+							<label for="wifi-encryption" class="block text-[13px] font-medium tracking-wide text-[#8a7e68] uppercase">
+								Encryption
+							</label>
+							<select
+								id="wifi-encryption"
+								class="mt-2 w-full rounded-xl border border-[#eae4d6] bg-white px-3 py-2 text-[15px] text-[#221b10] focus:border-[#c9982e] focus:outline-none focus:ring-1 focus:ring-[#c9982e]"
+							>
+								<option value="WPA">WPA / WPA2 / WPA3</option>
+								<option value="WEP">WEP</option>
+								<option value="nopass">None (open network)</option>
+							</select>
+						</div>
+						<div>
+							<label for="wifi-password" class="block text-[13px] font-medium tracking-wide text-[#8a7e68] uppercase">
+								Password
+							</label>
+							<input
+								id="wifi-password"
+								type="text"
+								placeholder="password"
+								class="mt-2 w-full rounded-xl border border-[#eae4d6] bg-white px-3 py-2 text-[15px] text-[#221b10] placeholder:text-[#8a7e68]/60 focus:border-[#c9982e] focus:outline-none focus:ring-1 focus:ring-[#c9982e]"
+							/>
+						</div>
+						<label class="flex items-center gap-2 text-[13px] text-[#4a4234] sm:col-span-2">
+							<input id="wifi-hidden" type="checkbox" class="h-4 w-4 rounded border-[#eae4d6] text-[#c9982e] focus:ring-[#c9982e]" />
+							This is a hidden network
+						</label>
+					</div>
+				</div>
+
+				<!-- vCard panel -->
+				<div id="preset-panel-vcard" class="preset-panel mt-5 hidden">
+					<div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+						<div>
+							<label for="vcard-name" class="block text-[13px] font-medium tracking-wide text-[#8a7e68] uppercase">
+								Full name
+							</label>
+							<input
+								id="vcard-name"
+								type="text"
+								placeholder="Jane Doe"
+								class="mt-2 w-full rounded-xl border border-[#eae4d6] bg-white px-3 py-2 text-[15px] text-[#221b10] placeholder:text-[#8a7e68]/60 focus:border-[#c9982e] focus:outline-none focus:ring-1 focus:ring-[#c9982e]"
+							/>
+						</div>
+						<div>
+							<label for="vcard-org" class="block text-[13px] font-medium tracking-wide text-[#8a7e68] uppercase">
+								Company <span class="normal-case text-[#8a7e68]/70">(optional)</span>
+							</label>
+							<input
+								id="vcard-org"
+								type="text"
+								placeholder="Acme Inc"
+								class="mt-2 w-full rounded-xl border border-[#eae4d6] bg-white px-3 py-2 text-[15px] text-[#221b10] placeholder:text-[#8a7e68]/60 focus:border-[#c9982e] focus:outline-none focus:ring-1 focus:ring-[#c9982e]"
+							/>
+						</div>
+						<div>
+							<label for="vcard-phone" class="block text-[13px] font-medium tracking-wide text-[#8a7e68] uppercase">
+								Phone
+							</label>
+							<input
+								id="vcard-phone"
+								type="tel"
+								placeholder="+1 555 010 1234"
+								class="mt-2 w-full rounded-xl border border-[#eae4d6] bg-white px-3 py-2 text-[15px] text-[#221b10] placeholder:text-[#8a7e68]/60 focus:border-[#c9982e] focus:outline-none focus:ring-1 focus:ring-[#c9982e]"
+							/>
+						</div>
+						<div>
+							<label for="vcard-email" class="block text-[13px] font-medium tracking-wide text-[#8a7e68] uppercase">
+								Email
+							</label>
+							<input
+								id="vcard-email"
+								type="email"
+								placeholder="jane@example.com"
+								class="mt-2 w-full rounded-xl border border-[#eae4d6] bg-white px-3 py-2 text-[15px] text-[#221b10] placeholder:text-[#8a7e68]/60 focus:border-[#c9982e] focus:outline-none focus:ring-1 focus:ring-[#c9982e]"
+							/>
+						</div>
+						<div class="sm:col-span-2">
+							<label for="vcard-url" class="block text-[13px] font-medium tracking-wide text-[#8a7e68] uppercase">
+								Website <span class="normal-case text-[#8a7e68]/70">(optional)</span>
+							</label>
+							<input
+								id="vcard-url"
+								type="url"
+								placeholder="https://example.com"
+								class="mt-2 w-full rounded-xl border border-[#eae4d6] bg-white px-3 py-2 text-[15px] text-[#221b10] placeholder:text-[#8a7e68]/60 focus:border-[#c9982e] focus:outline-none focus:ring-1 focus:ring-[#c9982e]"
+							/>
+						</div>
+					</div>
+				</div>
+
+				<!-- Email panel -->
+				<div id="preset-panel-email" class="preset-panel mt-5 hidden">
+					<div class="grid grid-cols-1 gap-4">
+						<div>
+							<label for="email-to" class="block text-[13px] font-medium tracking-wide text-[#8a7e68] uppercase">
+								To address
+							</label>
+							<input
+								id="email-to"
+								type="email"
+								placeholder="hello@example.com"
+								class="mt-2 w-full rounded-xl border border-[#eae4d6] bg-white px-3 py-2 text-[15px] text-[#221b10] placeholder:text-[#8a7e68]/60 focus:border-[#c9982e] focus:outline-none focus:ring-1 focus:ring-[#c9982e]"
+							/>
+						</div>
+						<div>
+							<label for="email-subject" class="block text-[13px] font-medium tracking-wide text-[#8a7e68] uppercase">
+								Subject <span class="normal-case text-[#8a7e68]/70">(optional)</span>
+							</label>
+							<input
+								id="email-subject"
+								type="text"
+								placeholder="Quick hello"
+								class="mt-2 w-full rounded-xl border border-[#eae4d6] bg-white px-3 py-2 text-[15px] text-[#221b10] placeholder:text-[#8a7e68]/60 focus:border-[#c9982e] focus:outline-none focus:ring-1 focus:ring-[#c9982e]"
+							/>
+						</div>
+						<div>
+							<label for="email-body" class="block text-[13px] font-medium tracking-wide text-[#8a7e68] uppercase">
+								Message <span class="normal-case text-[#8a7e68]/70">(optional)</span>
+							</label>
+							<textarea
+								id="email-body"
+								rows="2"
+								placeholder="Type a prefilled message..."
+								class="mt-2 w-full resize-y rounded-xl border border-[#eae4d6] bg-white p-3 text-[15px] text-[#221b10] placeholder:text-[#8a7e68]/60 focus:border-[#c9982e] focus:outline-none focus:ring-1 focus:ring-[#c9982e]"
+							></textarea>
+						</div>
+					</div>
+				</div>
+
+				<p id="preset-hint" class="mt-4 text-[13px] text-[#8a7e68]">
+					Paste a link or type any text — it will be encoded exactly as-is.
+				</p>
 			</div>
 
-			<div class="rounded-xl border border-[#E8DFC8] bg-white p-6 shadow-sm">
-				<h2 class="font-[Inter] text-sm font-semibold text-[#2B2013]">Style</h2>
+			<div class="rounded-2xl border border-[#eae4d6] bg-[#faf8f3] p-6 shadow-sm">
+				<h2 class="font-[Sora] text-[15px] font-bold text-[#221b10]">Style</h2>
 
 				<div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
 					<div>
 						<label
 							for="dot-style"
-							class="block text-xs font-medium tracking-wide text-[#5C4F3D]/70 uppercase"
+							class="block text-[13px] font-medium tracking-wide text-[#8a7e68] uppercase"
 						>
 							Dot style
 						</label>
 						<select
 							id="dot-style"
-							class="mt-2 w-full rounded-xl border border-[#E8DFC8] bg-white px-3 py-2 text-sm text-[#2B2013] focus:border-[#C9982E] focus:outline-none focus:ring-1 focus:ring-[#C9982E]"
+							class="mt-2 w-full rounded-xl border border-[#eae4d6] bg-white px-3 py-2 text-[15px] text-[#221b10] focus:border-[#c9982e] focus:outline-none focus:ring-1 focus:ring-[#c9982e]"
 						>
 							<option value="square">Square</option>
 							<option value="dots">Dots</option>
@@ -74,13 +269,13 @@ import Layout from '../layouts/Layout.astro';
 					<div>
 						<label
 							for="corner-style"
-							class="block text-xs font-medium tracking-wide text-[#5C4F3D]/70 uppercase"
+							class="block text-[13px] font-medium tracking-wide text-[#8a7e68] uppercase"
 						>
 							Corner style
 						</label>
 						<select
 							id="corner-style"
-							class="mt-2 w-full rounded-xl border border-[#E8DFC8] bg-white px-3 py-2 text-sm text-[#2B2013] focus:border-[#C9982E] focus:outline-none focus:ring-1 focus:ring-[#C9982E]"
+							class="mt-2 w-full rounded-xl border border-[#eae4d6] bg-white px-3 py-2 text-[15px] text-[#221b10] focus:border-[#c9982e] focus:outline-none focus:ring-1 focus:ring-[#c9982e]"
 						>
 							<option value="square">Square</option>
 							<option value="dot">Dot</option>
@@ -91,7 +286,7 @@ import Layout from '../layouts/Layout.astro';
 					<div>
 						<label
 							for="dot-color"
-							class="block text-xs font-medium tracking-wide text-[#5C4F3D]/70 uppercase"
+							class="block text-[13px] font-medium tracking-wide text-[#8a7e68] uppercase"
 						>
 							Dot color
 						</label>
@@ -99,12 +294,12 @@ import Layout from '../layouts/Layout.astro';
 							<input
 								id="dot-color"
 								type="color"
-								value="#2B2013"
-								class="h-9 w-12 cursor-pointer rounded-lg border border-[#E8DFC8] bg-white p-1"
+								value="#221b10"
+								class="h-9 w-12 cursor-pointer rounded-lg border border-[#eae4d6] bg-white p-1"
 							/>
 							<span
 								id="dot-color-label"
-								class="text-xs text-[#5C4F3D]/70">#2B2013</span
+								class="text-[13px] text-[#8a7e68]">#221b10</span
 							>
 						</div>
 					</div>
@@ -112,7 +307,7 @@ import Layout from '../layouts/Layout.astro';
 					<div>
 						<label
 							for="bg-color"
-							class="block text-xs font-medium tracking-wide text-[#5C4F3D]/70 uppercase"
+							class="block text-[13px] font-medium tracking-wide text-[#8a7e68] uppercase"
 						>
 							Background color
 						</label>
@@ -121,20 +316,20 @@ import Layout from '../layouts/Layout.astro';
 								id="bg-color"
 								type="color"
 								value="#ffffff"
-								class="h-9 w-12 cursor-pointer rounded-lg border border-[#E8DFC8] bg-white p-1"
+								class="h-9 w-12 cursor-pointer rounded-lg border border-[#eae4d6] bg-white p-1"
 							/>
 							<span
 								id="bg-color-label"
-								class="text-xs text-[#5C4F3D]/70">#ffffff</span
+								class="text-[13px] text-[#8a7e68]">#ffffff</span
 							>
 						</div>
 					</div>
 				</div>
 			</div>
 
-			<div class="rounded-xl border border-[#E8DFC8] bg-white p-6 shadow-sm">
-				<h2 class="font-[Inter] text-sm font-semibold text-[#2B2013]">
-					Center logo <span class="font-normal text-[#5C4F3D]/50"
+			<div class="rounded-2xl border border-[#eae4d6] bg-[#faf8f3] p-6 shadow-sm">
+				<h2 class="font-[Sora] text-[15px] font-bold text-[#221b10]">
+					Center logo <span class="font-normal text-[#8a7e68]"
 						>(optional)</span
 					>
 				</h2>
@@ -143,7 +338,7 @@ import Layout from '../layouts/Layout.astro';
 					<button
 						id="logo-tab-none"
 						type="button"
-						class="logo-tab rounded-xl border border-[#C9982E] bg-[#C9982E] px-3 py-1.5 text-xs font-semibold text-white"
+						class="logo-tab rounded-xl border border-[#c9982e] bg-[#c9982e] px-3.5 py-1.5 text-[13px] font-semibold text-white"
 						data-mode="none"
 					>
 						None
@@ -151,7 +346,7 @@ import Layout from '../layouts/Layout.astro';
 					<button
 						id="logo-tab-upload"
 						type="button"
-						class="logo-tab rounded-xl border border-[#E8DFC8] bg-white px-3 py-1.5 text-xs font-semibold text-[#5C4F3D] transition hover:border-[#C9982E] hover:text-[#B8860B]"
+						class="logo-tab rounded-xl border border-[#eae4d6] bg-white px-3.5 py-1.5 text-[13px] font-semibold text-[#4a4234] transition hover:border-[#c9982e] hover:text-[#b8860b]"
 						data-mode="upload"
 					>
 						Upload image
@@ -159,7 +354,7 @@ import Layout from '../layouts/Layout.astro';
 					<button
 						id="logo-tab-initials"
 						type="button"
-						class="logo-tab rounded-xl border border-[#E8DFC8] bg-white px-3 py-1.5 text-xs font-semibold text-[#5C4F3D] transition hover:border-[#C9982E] hover:text-[#B8860B]"
+						class="logo-tab rounded-xl border border-[#eae4d6] bg-white px-3.5 py-1.5 text-[13px] font-semibold text-[#4a4234] transition hover:border-[#c9982e] hover:text-[#b8860b]"
 						data-mode="initials"
 					>
 						Type initials
@@ -171,7 +366,7 @@ import Layout from '../layouts/Layout.astro';
 						id="logo-file"
 						type="file"
 						accept="image/*"
-						class="block w-full text-xs text-[#5C4F3D] file:mr-3 file:rounded-xl file:border-0 file:bg-[#C9982E] file:px-3 file:py-2 file:text-xs file:font-semibold file:text-white hover:file:bg-[#B8860B]"
+						class="block w-full text-[13px] text-[#4a4234] file:mr-3 file:rounded-xl file:border-0 file:bg-[#c9982e] file:px-3 file:py-2 file:text-[13px] file:font-semibold file:text-white hover:file:bg-[#b8860b]"
 					/>
 				</div>
 
@@ -180,7 +375,7 @@ import Layout from '../layouts/Layout.astro';
 						<div>
 							<label
 								for="initials-input"
-								class="block text-xs font-medium tracking-wide text-[#5C4F3D]/70 uppercase"
+								class="block text-[13px] font-medium tracking-wide text-[#8a7e68] uppercase"
 							>
 								Initials
 							</label>
@@ -189,21 +384,21 @@ import Layout from '../layouts/Layout.astro';
 								type="text"
 								maxlength="3"
 								placeholder="AB"
-								class="mt-2 w-24 rounded-xl border border-[#E8DFC8] bg-white px-3 py-2 text-center text-sm font-semibold text-[#2B2013] uppercase focus:border-[#C9982E] focus:outline-none focus:ring-1 focus:ring-[#C9982E]"
+								class="mt-2 w-24 rounded-xl border border-[#eae4d6] bg-white px-3 py-2 text-center text-[15px] font-semibold text-[#221b10] uppercase focus:border-[#c9982e] focus:outline-none focus:ring-1 focus:ring-[#c9982e]"
 							/>
 						</div>
 						<div>
 							<label
 								for="initials-bg-color"
-								class="block text-xs font-medium tracking-wide text-[#5C4F3D]/70 uppercase"
+								class="block text-[13px] font-medium tracking-wide text-[#8a7e68] uppercase"
 							>
 								Badge color
 							</label>
 							<input
 								id="initials-bg-color"
 								type="color"
-								value="#C9982E"
-								class="mt-2 h-9 w-12 cursor-pointer rounded-lg border border-[#E8DFC8] bg-white p-1"
+								value="#c9982e"
+								class="mt-2 h-9 w-12 cursor-pointer rounded-lg border border-[#eae4d6] bg-white p-1"
 							/>
 						</div>
 					</div>
@@ -211,7 +406,7 @@ import Layout from '../layouts/Layout.astro';
 
 				<div
 					id="logo-error"
-					class="mt-3 hidden text-xs text-red-600"
+					class="mt-3 hidden text-[13px] text-red-600"
 				></div>
 			</div>
 		</div>
@@ -219,15 +414,15 @@ import Layout from '../layouts/Layout.astro';
 		<!-- Preview -->
 		<div class="flex flex-col items-center">
 			<div
-				class="flex w-full flex-col items-center rounded-xl border border-[#E8DFC8] bg-white p-8 shadow-sm"
+				class="flex w-full flex-col items-center rounded-2xl border border-[#eae4d6] bg-[#faf8f3] p-8 shadow-sm"
 			>
 				<div
 					id="qr-preview"
 					class="flex min-h-[280px] items-center justify-center"
 				>
 				</div>
-				<p id="qr-empty-hint" class="mt-2 text-center text-xs text-[#5C4F3D]/50">
-					Start typing above to generate your QR code.
+				<p id="qr-empty-hint" class="mt-2 text-center text-[13px] text-[#8a7e68]">
+					Fill in the fields above to generate your QR code.
 				</p>
 			</div>
 
@@ -235,19 +430,65 @@ import Layout from '../layouts/Layout.astro';
 				<button
 					id="download-png"
 					disabled
-					class="flex-1 rounded-xl bg-[#C9982E] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#B8860B] disabled:cursor-not-allowed disabled:bg-[#E8DFC8] disabled:text-[#5C4F3D]/50"
+					class="flex-1 rounded-xl bg-[#c9982e] px-6 py-3 text-[15px] font-semibold text-white transition hover:bg-[#b8860b] disabled:cursor-not-allowed disabled:bg-[#eae4d6] disabled:text-[#8a7e68]"
 				>
 					Download PNG
 				</button>
 				<button
 					id="download-svg"
 					disabled
-					class="flex-1 rounded-xl border border-[#E8DFC8] bg-white px-6 py-3 text-sm font-semibold text-[#2B2013] transition hover:border-[#C9982E] hover:text-[#B8860B] disabled:cursor-not-allowed disabled:border-[#E8DFC8] disabled:text-[#5C4F3D]/30"
+					class="flex-1 rounded-xl border border-[#eae4d6] bg-white px-6 py-3 text-[15px] font-semibold text-[#221b10] transition hover:border-[#c9982e] hover:text-[#b8860b] disabled:cursor-not-allowed disabled:border-[#eae4d6] disabled:text-[#8a7e68]"
 				>
 					Download SVG
 				</button>
 			</div>
 		</div>
+	</section>
+
+	<!-- How it works -->
+	<section class="mt-16">
+		<h2 class="text-2xl font-bold tracking-tight text-[#221b10]">How QRSmith works</h2>
+		<div class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-3">
+			<div class="rounded-2xl border border-[#eae4d6] bg-[#faf8f3] p-6 shadow-sm">
+				<div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#c9982e] font-[Sora] text-[15px] font-bold text-white">1</div>
+				<h3 class="mt-4 text-lg font-bold text-[#221b10]">Pick a content type</h3>
+				<p class="mt-2 text-[15px] leading-relaxed text-[#4a4234]">
+					A raw URL, a WiFi network, a contact card, or a prefilled email —
+					QRSmith builds the correct payload for each.
+				</p>
+			</div>
+			<div class="rounded-2xl border border-[#eae4d6] bg-[#faf8f3] p-6 shadow-sm">
+				<div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#c9982e] font-[Sora] text-[15px] font-bold text-white">2</div>
+				<h3 class="mt-4 text-lg font-bold text-[#221b10]">Style it your way</h3>
+				<p class="mt-2 text-[15px] leading-relaxed text-[#4a4234]">
+					Choose dot and corner shapes, set brand colors, and drop a logo or
+					initials into the center. The preview updates live.
+				</p>
+			</div>
+			<div class="rounded-2xl border border-[#eae4d6] bg-[#faf8f3] p-6 shadow-sm">
+				<div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#c9982e] font-[Sora] text-[15px] font-bold text-white">3</div>
+				<h3 class="mt-4 text-lg font-bold text-[#221b10]">Download PNG or SVG</h3>
+				<p class="mt-2 text-[15px] leading-relaxed text-[#4a4234]">
+					Grab a crisp PNG for everyday use or a scalable SVG for print and
+					large formats. No watermark, no signup.
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<!-- Snake boredom-filler -->
+	<section class="mt-14">
+		<details class="rounded-2xl border border-[#eae4d6] bg-[#faf8f3] p-5">
+			<summary class="cursor-pointer select-none font-[Sora] text-lg font-bold text-[#221b10]">Bored? Play a quick game of Snake</summary>
+			<div class="mt-4 flex flex-col items-center gap-3">
+				<canvas id="snake-canvas" width="320" height="320" class="rounded-lg border border-[#eae4d6] bg-white" style="touch-action:none"></canvas>
+				<div class="flex items-center gap-4 text-sm text-[#4a4234]">
+					<span>Score: <b id="snake-score">0</b></span>
+					<button id="snake-restart" class="rounded-lg bg-[#c9982e] px-4 py-2 font-semibold text-white transition hover:bg-[#b8860b]">Restart</button>
+				</div>
+				<p class="text-xs text-[#8a7e68]">Arrow keys / WASD, or swipe on mobile.</p>
+			</div>
+		</details>
 	</section>
 
 	<script>
@@ -264,62 +505,68 @@ import Layout from '../layouts/Layout.astro';
 				.replace(/</g, '&lt;')
 				.replace(/>/g, '&gt;');
 
-		const qrText = document.getElementById('qr-text') as HTMLTextAreaElement;
-		const dotStyleSelect = document.getElementById(
-			'dot-style',
-		) as HTMLSelectElement;
-		const cornerStyleSelect = document.getElementById(
-			'corner-style',
-		) as HTMLSelectElement;
-		const dotColorInput = document.getElementById(
-			'dot-color',
-		) as HTMLInputElement;
-		const dotColorLabel = document.getElementById(
-			'dot-color-label',
-		) as HTMLSpanElement;
-		const bgColorInput = document.getElementById(
-			'bg-color',
-		) as HTMLInputElement;
-		const bgColorLabel = document.getElementById(
-			'bg-color-label',
-		) as HTMLSpanElement;
+		// --- Content presets -------------------------------------------------
+		type Preset = 'url' | 'wifi' | 'vcard' | 'email';
+		let activePreset: Preset = 'url';
 
-		const logoTabNone = document.getElementById(
-			'logo-tab-none',
-		) as HTMLButtonElement;
-		const logoTabUpload = document.getElementById(
-			'logo-tab-upload',
-		) as HTMLButtonElement;
-		const logoTabInitials = document.getElementById(
-			'logo-tab-initials',
-		) as HTMLButtonElement;
+		const presetTabs = Array.from(
+			document.querySelectorAll<HTMLButtonElement>('.preset-tab'),
+		);
+		const presetPanels: Record<Preset, HTMLElement | null> = {
+			url: document.getElementById('preset-panel-url'),
+			wifi: document.getElementById('preset-panel-wifi'),
+			vcard: document.getElementById('preset-panel-vcard'),
+			email: document.getElementById('preset-panel-email'),
+		};
+		const presetHint = document.getElementById('preset-hint') as HTMLParagraphElement;
+		const presetHints: Record<Preset, string> = {
+			url: 'Paste a link or type any text — it will be encoded exactly as-is.',
+			wifi: 'Anyone who scans this can join your network — no typing the password.',
+			vcard: 'Scanning saves the contact straight to the phone address book.',
+			email: 'Scanning opens a new email with the address, subject, and message prefilled.',
+		};
+
+		const qrText = document.getElementById('qr-text') as HTMLTextAreaElement;
+		// WiFi fields
+		const wifiSsid = document.getElementById('wifi-ssid') as HTMLInputElement;
+		const wifiPassword = document.getElementById('wifi-password') as HTMLInputElement;
+		const wifiEncryption = document.getElementById('wifi-encryption') as HTMLSelectElement;
+		const wifiHidden = document.getElementById('wifi-hidden') as HTMLInputElement;
+		// vCard fields
+		const vcardName = document.getElementById('vcard-name') as HTMLInputElement;
+		const vcardOrg = document.getElementById('vcard-org') as HTMLInputElement;
+		const vcardPhone = document.getElementById('vcard-phone') as HTMLInputElement;
+		const vcardEmail = document.getElementById('vcard-email') as HTMLInputElement;
+		const vcardUrl = document.getElementById('vcard-url') as HTMLInputElement;
+		// Email fields
+		const emailTo = document.getElementById('email-to') as HTMLInputElement;
+		const emailSubject = document.getElementById('email-subject') as HTMLInputElement;
+		const emailBody = document.getElementById('email-body') as HTMLTextAreaElement;
+
+		// Style fields
+		const dotStyleSelect = document.getElementById('dot-style') as HTMLSelectElement;
+		const cornerStyleSelect = document.getElementById('corner-style') as HTMLSelectElement;
+		const dotColorInput = document.getElementById('dot-color') as HTMLInputElement;
+		const dotColorLabel = document.getElementById('dot-color-label') as HTMLSpanElement;
+		const bgColorInput = document.getElementById('bg-color') as HTMLInputElement;
+		const bgColorLabel = document.getElementById('bg-color-label') as HTMLSpanElement;
+
+		const logoTabNone = document.getElementById('logo-tab-none') as HTMLButtonElement;
+		const logoTabUpload = document.getElementById('logo-tab-upload') as HTMLButtonElement;
+		const logoTabInitials = document.getElementById('logo-tab-initials') as HTMLButtonElement;
 		const logoTabs = [logoTabNone, logoTabUpload, logoTabInitials];
 
-		const logoPanelUpload = document.getElementById(
-			'logo-panel-upload',
-		) as HTMLDivElement;
-		const logoPanelInitials = document.getElementById(
-			'logo-panel-initials',
-		) as HTMLDivElement;
+		const logoPanelUpload = document.getElementById('logo-panel-upload') as HTMLDivElement;
+		const logoPanelInitials = document.getElementById('logo-panel-initials') as HTMLDivElement;
 		const logoFile = document.getElementById('logo-file') as HTMLInputElement;
-		const initialsInput = document.getElementById(
-			'initials-input',
-		) as HTMLInputElement;
-		const initialsBgColor = document.getElementById(
-			'initials-bg-color',
-		) as HTMLInputElement;
+		const initialsInput = document.getElementById('initials-input') as HTMLInputElement;
+		const initialsBgColor = document.getElementById('initials-bg-color') as HTMLInputElement;
 		const logoError = document.getElementById('logo-error') as HTMLDivElement;
 
 		const qrPreview = document.getElementById('qr-preview') as HTMLDivElement;
-		const qrEmptyHint = document.getElementById(
-			'qr-empty-hint',
-		) as HTMLParagraphElement;
-		const downloadPngBtn = document.getElementById(
-			'download-png',
-		) as HTMLButtonElement;
-		const downloadSvgBtn = document.getElementById(
-			'download-svg',
-		) as HTMLButtonElement;
+		const qrEmptyHint = document.getElementById('qr-empty-hint') as HTMLParagraphElement;
+		const downloadPngBtn = document.getElementById('download-png') as HTMLButtonElement;
+		const downloadSvgBtn = document.getElementById('download-svg') as HTMLButtonElement;
 
 		type LogoMode = 'none' | 'upload' | 'initials';
 		let logoMode: LogoMode = 'none';
@@ -341,16 +588,113 @@ import Layout from '../layouts/Layout.astro';
 			logoError.textContent = escapeHtml(message);
 		};
 
+		// --- Payload builders ------------------------------------------------
+		// WIFI: string escaping per the de-facto MECARD-style spec: backslash,
+		// semicolon, comma, colon, and double-quote must be backslash-escaped.
+		const escapeWifi = (value: string): string =>
+			value.replace(/([\\;,:"])/g, '\\$1');
+
+		const buildWifiPayload = (): string => {
+			const ssid = wifiSsid.value.trim();
+			if (ssid === '') return '';
+			const enc = wifiEncryption.value; // WPA | WEP | nopass
+			const pass = wifiPassword.value;
+			const hidden = wifiHidden.checked ? 'true' : 'false';
+			let out = `WIFI:S:${escapeWifi(ssid)};`;
+			if (enc === 'nopass') {
+				out += 'T:nopass;;';
+			} else {
+				out += `T:${enc};P:${escapeWifi(pass)};`;
+				if (wifiHidden.checked) out += `H:${hidden};`;
+				out += ';';
+			}
+			return out;
+		};
+
+		// vCard 3.0 — the most broadly-supported version across phone cameras.
+		const buildVcardPayload = (): string => {
+			const name = vcardName.value.trim();
+			const phone = vcardPhone.value.trim();
+			const email = vcardEmail.value.trim();
+			if (name === '' && phone === '' && email === '') return '';
+			const org = vcardOrg.value.trim();
+			const url = vcardUrl.value.trim();
+			// Newlines are literal CRLF in a vCard; escape any user commas/semicolons
+			// inside a single field value.
+			const esc = (v: string) => v.replace(/([\\,;])/g, '\\$1');
+			const lines = ['BEGIN:VCARD', 'VERSION:3.0'];
+			if (name) {
+				lines.push(`N:${esc(name)};;;`);
+				lines.push(`FN:${esc(name)}`);
+			}
+			if (org) lines.push(`ORG:${esc(org)}`);
+			if (phone) lines.push(`TEL;TYPE=CELL:${esc(phone)}`);
+			if (email) lines.push(`EMAIL:${esc(email)}`);
+			if (url) lines.push(`URL:${esc(url)}`);
+			lines.push('END:VCARD');
+			return lines.join('\r\n');
+		};
+
+		const buildEmailPayload = (): string => {
+			const to = emailTo.value.trim();
+			if (to === '') return '';
+			const params: string[] = [];
+			const subject = emailSubject.value.trim();
+			const body = emailBody.value.trim();
+			if (subject) params.push(`subject=${encodeURIComponent(subject)}`);
+			if (body) params.push(`body=${encodeURIComponent(body)}`);
+			return `mailto:${to}${params.length ? '?' + params.join('&') : ''}`;
+		};
+
+		const getQrData = (): string => {
+			switch (activePreset) {
+				case 'wifi':
+					return buildWifiPayload();
+				case 'vcard':
+					return buildVcardPayload();
+				case 'email':
+					return buildEmailPayload();
+				case 'url':
+				default:
+					return qrText.value.trim();
+			}
+		};
+
+		const setActivePreset = (preset: Preset) => {
+			activePreset = preset;
+			presetTabs.forEach((tab) => {
+				const isActive = tab.dataset.preset === preset;
+				tab.classList.toggle('bg-[#c9982e]', isActive);
+				tab.classList.toggle('text-white', isActive);
+				tab.classList.toggle('border-[#c9982e]', isActive);
+				tab.classList.toggle('bg-white', !isActive);
+				tab.classList.toggle('text-[#4a4234]', !isActive);
+				tab.classList.toggle('border-[#eae4d6]', !isActive);
+				tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+			});
+			(Object.keys(presetPanels) as Preset[]).forEach((key) => {
+				presetPanels[key]?.classList.toggle('hidden', key !== preset);
+			});
+			presetHint.textContent = presetHints[preset];
+		};
+
+		presetTabs.forEach((tab) => {
+			tab.addEventListener('click', () => {
+				setActivePreset(tab.dataset.preset as Preset);
+				scheduleRender();
+			});
+		});
+
 		const setActiveTab = (mode: LogoMode) => {
 			logoMode = mode;
 			logoTabs.forEach((tab) => {
 				const isActive = tab.dataset.mode === mode;
-				tab.classList.toggle('bg-[#C9982E]', isActive);
+				tab.classList.toggle('bg-[#c9982e]', isActive);
 				tab.classList.toggle('text-white', isActive);
-				tab.classList.toggle('border-[#C9982E]', isActive);
+				tab.classList.toggle('border-[#c9982e]', isActive);
 				tab.classList.toggle('bg-white', !isActive);
-				tab.classList.toggle('text-[#5C4F3D]', !isActive);
-				tab.classList.toggle('border-[#E8DFC8]', !isActive);
+				tab.classList.toggle('text-[#4a4234]', !isActive);
+				tab.classList.toggle('border-[#eae4d6]', !isActive);
 			});
 			logoPanelUpload.classList.toggle('hidden', mode !== 'upload');
 			logoPanelInitials.classList.toggle('hidden', mode !== 'initials');
@@ -442,7 +786,23 @@ import Layout from '../layouts/Layout.astro';
 		});
 		dotStyleSelect.addEventListener('change', scheduleRender);
 		cornerStyleSelect.addEventListener('change', scheduleRender);
-		qrText.addEventListener('input', scheduleRender);
+
+		// Wire every content-field to a re-render.
+		[
+			qrText,
+			wifiSsid,
+			wifiPassword,
+			vcardName,
+			vcardOrg,
+			vcardPhone,
+			vcardEmail,
+			vcardUrl,
+			emailTo,
+			emailSubject,
+			emailBody,
+		].forEach((el) => el.addEventListener('input', scheduleRender));
+		wifiEncryption.addEventListener('change', scheduleRender);
+		wifiHidden.addEventListener('change', scheduleRender);
 
 		function scheduleRender() {
 			if (debounceHandle) clearTimeout(debounceHandle);
@@ -464,7 +824,7 @@ import Layout from '../layouts/Layout.astro';
 		}
 
 		function render() {
-			const text = qrText.value.trim();
+			const text = getQrData();
 
 			if (text === '') {
 				qrPreview.innerHTML = '';
@@ -520,12 +880,27 @@ import Layout from '../layouts/Layout.astro';
 			downloadSvgBtn.disabled = false;
 		}
 
-		const safeFileBase = (text: string): string => {
-			// Not rendered to the DOM, but keep filenames clean/predictable anyway.
-			const slug = text
+		const safeFileBase = (): string => {
+			// Not rendered to the DOM, but keep filenames clean/predictable.
+			let source = '';
+			switch (activePreset) {
+				case 'wifi':
+					source = wifiSsid.value ? `wifi-${wifiSsid.value}` : 'wifi';
+					break;
+				case 'vcard':
+					source = vcardName.value ? `contact-${vcardName.value}` : 'contact';
+					break;
+				case 'email':
+					source = emailTo.value ? `email-${emailTo.value}` : 'email';
+					break;
+				default:
+					source = qrText.value;
+			}
+			const slug = source
 				.trim()
 				.toLowerCase()
 				.replace(/^https?:\/\//, '')
+				.replace(/^mailto:/, '')
 				.replace(/[^a-z0-9]+/g, '-')
 				.replace(/^-+|-+$/g, '')
 				.slice(0, 40);
@@ -534,11 +909,55 @@ import Layout from '../layouts/Layout.astro';
 
 		const downloadAs = async (extension: FileExtension) => {
 			if (!qrCode) return;
-			const name = safeFileBase(qrText.value);
+			const name = safeFileBase();
 			await qrCode.download({ name, extension });
 		};
 
 		downloadPngBtn.addEventListener('click', () => downloadAs('png'));
 		downloadSvgBtn.addEventListener('click', () => downloadAs('svg'));
+
+		// Initialize preset hint text.
+		presetHint.textContent = presetHints[activePreset];
+	</script>
+
+	<script>
+		// Snake boredom-filler — self-contained, no dependencies.
+		(() => {
+			const cv = document.getElementById('snake-canvas') as HTMLCanvasElement | null;
+			if (!cv) return;
+			const ctx = cv.getContext('2d');
+			if (!ctx) return;
+			const G = 16, N = 20;
+			let snake: { x: number; y: number }[],
+				dir: { x: number; y: number },
+				food: { x: number; y: number },
+				score: number,
+				alive: boolean;
+			const scoreEl = document.getElementById('snake-score');
+			function rndFood() { return { x: Math.floor(Math.random() * N), y: Math.floor(Math.random() * N) }; }
+			function reset() { snake = [{ x: 10, y: 10 }]; dir = { x: 0, y: 0 }; food = rndFood(); score = 0; alive = true; if (scoreEl) scoreEl.textContent = '0'; }
+			function step() {
+				if (!alive) return;
+				if (dir.x === 0 && dir.y === 0) { draw(); return; }
+				const h = { x: snake[0].x + dir.x, y: snake[0].y + dir.y };
+				if (h.x < 0 || h.y < 0 || h.x >= N || h.y >= N || snake.some((s) => s.x === h.x && s.y === h.y)) { alive = false; draw(); return; }
+				snake.unshift(h);
+				if (h.x === food.x && h.y === food.y) { score++; if (scoreEl) scoreEl.textContent = String(score); food = rndFood(); } else snake.pop();
+				draw();
+			}
+			function draw() {
+				if (!ctx) return;
+				ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, cv!.width, cv!.height);
+				ctx.fillStyle = '#c9982e'; snake.forEach((s) => ctx.fillRect(s.x * G + 1, s.y * G + 1, G - 2, G - 2));
+				ctx.fillStyle = '#221b10'; ctx.fillRect(food.x * G + 3, food.y * G + 3, G - 6, G - 6);
+				if (!alive) { ctx.fillStyle = 'rgba(34,27,16,0.72)'; ctx.fillRect(0, 0, cv!.width, cv!.height); ctx.fillStyle = '#fff'; ctx.font = 'bold 20px Sora, sans-serif'; ctx.textAlign = 'center'; ctx.fillText('Game Over — Restart', cv!.width / 2, cv!.height / 2); }
+			}
+			function turn(x: number, y: number) { if ((x !== 0 && dir.x === 0) || (y !== 0 && dir.y === 0)) dir = { x, y }; }
+			window.addEventListener('keydown', (e) => { const k = e.key.toLowerCase(); if (['arrowup', 'w'].includes(k)) turn(0, -1); else if (['arrowdown', 's'].includes(k)) turn(0, 1); else if (['arrowleft', 'a'].includes(k)) turn(-1, 0); else if (['arrowright', 'd'].includes(k)) turn(1, 0); else return; e.preventDefault(); }, { passive: false });
+			let tx = 0, ty = 0; cv.addEventListener('touchstart', (e) => { tx = e.touches[0].clientX; ty = e.touches[0].clientY; }, { passive: true });
+			cv.addEventListener('touchend', (e) => { const dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty; if (Math.abs(dx) > Math.abs(dy)) turn(dx > 0 ? 1 : -1, 0); else turn(0, dy > 0 ? 1 : -1); }, { passive: true });
+			document.getElementById('snake-restart')?.addEventListener('click', reset);
+			reset(); setInterval(step, 110);
+		})();
 	</script>
 </Layout>
